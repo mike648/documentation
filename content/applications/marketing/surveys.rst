@@ -190,6 +190,6 @@ and the columns depict the various activity types.
 
    surveys/create
    surveys/scoring
-   surveys/time_random
+   surveys/questions
    surveys/live_session
    surveys/analysis
