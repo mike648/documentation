@@ -280,15 +280,24 @@ Dependencies
                $ cd odoo #CommunityPath
                $ sudo ./setup/debinstall.sh
 
-            The `setup/debinstall.sh` script will parse the `debian/control` and install found
-            packages.
+            The `setup/debinstall.sh` script will parse the `debian/control
+            <{GITHUB_PATH}/debian/control>` file and install the found packages.
 
          .. tab:: Install with pip
 
             .. warning::
+<<<<<<< HEAD
 
                Using pip may lead to security issue and broken dependencies, only do this if you
                know what you are doing.
+||||||| parent of 280b0610c (temp)
+
+               Using pip may lead to security issue and broken dependencies, only do this if you
+               know what you rare doing.
+=======
+               Using pip may lead to security issues and broken dependencies; only do this if you
+               know what you are doing.
+>>>>>>> 280b0610c (temp)
 
             As some of the Python packages need a compilation step, they require system libraries to
             be installed.
