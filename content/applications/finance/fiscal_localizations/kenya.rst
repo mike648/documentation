@@ -7,114 +7,119 @@ Kenya
 Configuration
 =============
 
-:ref:`Install <general/install>` the following modules to get all the features of the Kenyan
-localization:
+Install the 🇰🇪 **Kenyan** fiscal localization package :ref:`fiscal localization package
+<fiscal_localizations/packages>` to get all the features of the Kenyan localization.
 
-.. list-table::
-   :header-rows: 1
+eTIMS
+=====
 
-   * - Name
-     - Technical name
-     - Description
-   * - :guilabel:`Kenyan - Accounting`
-     - `l10n_ke`
-     - Installing this module grants you access to the list of accounts used in the local GAAP and
-       the list of common taxes (VAT, etc.).
-   * - :guilabel:`Kenyan - Accounting Reports`
-     - `l10n_ke_reports`
-     - Installing this module grants you access to improved accounting reports for Kenya, such as
-       Profit and Loss and Balance Sheets.
+The `Kenya Revenue Authority (KRA) <https://www.kra.go.ke/>`_ has decided to go digital for tax
+collection through the `electronic Tax Invoice Management System (eTIMS)
+<https://www.kra.go.ke/online-services/etims>`_.
 
-You also have to install the **Kenya Tremol Device EDI Integration** package to be able to report
-your taxes to the **Kenya Revenue Authority (KRA)** using the Tremol G03 Control Unit:
-
-.. list-table::
-   :header-rows: 1
-
-   * - Name
-     - Technical name
-     - Description
-   * - :guilabel:`Kenya Tremol Device EDI Integration`
-     - `l10n_ke_edi_tremol`
-     - Installing this module integrates with the Kenyan G03 Tremol control unit device to report
-       taxes to KRA through TIMS.
-
-.. image:: kenya/modules.png
-   :align: center
-   :alt: The three modules for the Kenya Fiscal Localization Package on Odoo
-
-Kenyan TIMS integration
-=======================
-
-The Kenya Revenue Authority (KRA) has decided to go digital for tax collection through the **Tax
-Invoice Management System (TIMS)**. As of December 1st, 2022, all VAT-registered persons should
-comply with TIMS. The goal is to reduce VAT fraud, increase tax revenue, and increase VAT compliance
-through standardization, validation, and transmission of invoices to KRA on a real-time or near
-real-time basis.
-
-All VAT-registered taxpayers should use a **compliant tax register**. Odoo decided to develop the
-integration of the **Tremol G03 Control Unit (type C)**, which can be run locally through USB. This
-device validates invoices to ensure financial documents meet the new regulations and send the
-validated tax invoices directly to KRA. Installing a proxy server that provides a gateway between
-users and the internet is required.
-
-Installing the proxy server on a Windows device
------------------------------------------------
-
-Go to `odoo.com/download <https://www.odoo.com/page/download>`_, fill out the required information
-and click :guilabel:`Download`.
-
-.. image:: kenya/download.png
-   :align: center
-   :alt: Install the Proxy Server on a Windows device
-
-Once it is loaded on your computer, a wizard opens. You have to read and agree with the terms of the
-agreement. On the next page, select the :guilabel:`type of install: Odoo IoT`. Then, click
-:guilabel:`Next` and :guilabel:`Install`. Once completed, click :guilabel:`Next`. Check the
-:guilabel:`Start Odoo` box to be redirected to Odoo automatically, and then click :guilabel:`Finish`.
-
-A new page opens, confirming your :doc:`IoT Box <../../general/iot/config/connect>` is up and
-running. Connect your physical device **Tremol G03 Control Unit (type C)** to your laptop via USB.
-In the :guilabel:`IoT Device` section, check that your Tremol G03 Control Unit (type C) appears,
-confirming the connection between the device and your computer.
-
-.. image:: kenya/iot-box.png
-   :align: center
-   :alt: Your IoT box is up and running
+Odoo has developed an :abbr:`OSCU (Online Sales Control Unit)` that integrates with the existing
+**Trader Invoicing System (TIS)**. The OSCU performs the validation, encryption, signing,
+transmission, and storage of tax invoices.
 
 .. note::
-   If the device is not detected, try to plug it in again or click on the :guilabel:`Restart` button
-   in the top right corner.
+   Make sure to install the **Kenya eTIMS EDI** modules to make full use of the OSCU device.
+
+OSCU device initialization
+--------------------------
+
+Users must initialize their OSCU before they can use it. Before initialization, navigate to
+:guilabel:`Odoo Database --> Settings --> General Settings`, click :guilabel:`Update Info` and in
+the :guilabel:`General Information` tab, enter your tax ID in the :guilabel:`Tax ID` field.
+
+To  intitialize the OSCU, go to the :guilabel:`eTIMS` tab. Fill in the :guilabel:`eTIMS Branch Code`
+and :guilabel:`Serial Number` of the device. Make sure to set :guilabel:`eTIMS Server Mode` to
+:guilabel:`Test` for the initialization. When done, tick the **user agreement** and click
+:guilabel:`Initialize OSCU`. Your device is now authenticated.
+
+.. note::
+   Three :guilabel:`Server Mode` are available:
+
+   - :guilabel:`Demo`: Uses mocked data and does not require an initialized OSCU. Serves demo
+     purposes;
+   - :guilabel:`Test`: Used to test the connection to eTIMS;
+   - :guilabel:`Production`: Used for live databases ready to send data.
+
+.. Important::
+   If your device has **already been authenticated** (through another ERP, for example), enable
+   :doc:`../../general/developer_mode` and go to the :guilabel:`eTIMS` tab. The field
+   :guilabel:`Device Communication Key` is now available. Enter the key obtained through a previous
+   authentication, :guilabel:`Save manually`, and click :guilabel:`Initialize OSCU`. It **may take
+   time** before the button is available as the initialization was made elsewhere before.
+
+eTIMS codes
+-----------
+
+Common standard codes are **automatically** fetched from the KRA eTIMS API servers every **two
+days**. These can be fetched **manually** by enabling :doc:`../../general/developer_mode` and going
+to :menuselection:`Settings --> Technical --> Automation: Scheduled Actions -->
+KE eTIMS: Fetch KRA standard codes`. Here, click :guilabel:`Run Manually` to fetch the codes.
+
+The complete list of fetched OSCU codes can be found under :menuselection:`Accounting -->
+Configuration --> KE OSCU Codes`.
+
+.. image:: kenya/oscu-codes.png
+   :alt: List of fetched OSCU codes.
+
+UNSPSC codes
+------------
+
+UNSPSC codes are **automatically** fetched from the KRA eTIMS API servers **every day**. The codes
+are **needed by the KRA** for a product to be **registered**. These codes can be **manually**
+fetched by enabling :doc:`../../general/developer_mode` and going to :menuselection:`Settings -->
+Technical --> Automation: Scheduled Actions --> KE eTIMS: Fetch UNSPSC codes from eTIMS`. Here,
+click :guilabel:`Run Manually` to fetch the codes.
+
+The complete list of fetched UNSPSC codes can be found under :menuselection:`Accounting -->
+Configuration --> KE OSCU Codes`.
+
+Notices
+-------
+
+Notices are **automatically** fetched from the KRA eTIMS API servers **every day**. These notices
+can be fetched **manually** by enabling :doc:`../../general/developer_mode` and going to
+:menuselection:`Settings --> Technical --> Automation: Scheduled Actions --> KE eTIMS: Fetch KRA
+notices from eTIMS`. Here, click :guilabel:`Run Manually` to fetch the codes.
+
+The complete list of fetched notices can be found under :menuselection:`Accounting --> Configuration
+--> KE OSCU Notices`.
+
+Multi-company
+-------------
+
+.. _kenya/branch:
 
 .. seealso::
-   :doc:`Connect an IoT box to your database <../../general/iot/config/connect>`
+   :doc:`../../general/companies`
 
-Sending the data to KRA using the Tremol G03 Control Unit
----------------------------------------------------------
-
-As a pre-requisite, check out that the :ref:`Kenyan Accounting modules
-<localization/kenya/configuration>` are installed on your database. Then, go to
-:menuselection:`Accounting --> Configuration --> Settings --> Kenya TIMS Integration section`, and
-check that the :guilabel:`control Unit Proxy Address` matches the address of the IoT box.
-
-To send data to KRA, create a new invoice by going to :menuselection:`Accounting Dashboard -->
-Customer Invoice card` and clicking :guilabel:`New Invoice`. Upon confirmation of a new invoice, the
-:guilabel:`Send invoice to Fiscal Device` button appears. Clicking on it sends the invoice details
-to the device and from the device to the government. The :guilabel:`CU Invoice Number` field is now
-completed in your invoice, confirming the information has been sent.
-
-The :guilabel:`Tremol G03 Fiscal Device` tab contains fields that are automatically completed once
-the invoice is sent to the government:
-
-- :guilabel:`CU QR Code`: Url from the KRA portal which reflects a QR code.
-- :guilabel:`CU Serial Number`: reflects the serial number of the device.
-- :guilabel:`CU Signing Date and Time`: The date and time when the invoice has been sent to KRA.
-
-If you click on :guilabel:`Send and Print`, a .pdf of the invoice is generated. The
-:guilabel:`Kenyan Fiscal Device Info` is mentioned on the document.
+The ID of a company can be configured under the **Settings** app, click :guilabel:`Update Info` in
+the **Companies** section, and finally click the :guilabel:`eTIMS` tab. In a multi-company
+environment, the **main company** has a branch ID equal to `00`. Companies that are *not* the main
+company have a branch ID other than `00` and are assigned an ID **by the KRA**.
 
 .. note::
-   To verify KRA has received the invoice information, take the :guilabel:`CU Invoice Number` and
-   enter it in the :guilabel:`Invoice Number Checker` section on
-   `Kenya Revenue Authority website <https://itax.kra.go.ke/KRA-Portal>`_. Click
-   :guilabel:`Validate` and find the invoice details.
+   The KRA considers that each **place of supply** corresponds to a branch (ID).
+
+Fetch branch ID from the KRA
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the **Settings** app, under :guilabel:`Update Info` in the **Companies** section, *if* the
+**main company** has a Kenyan :guilabel:`Tax ID` and the **OSCU** device has been initialized, users
+can fetch **branch information** from the KRA for their non-main companies. To do so, click the
+:guilabel:`Branches` and then :guilabel:`Populate from KRA`. Once the information fetched, branches
+for this **main company** can be created.
+
+.. note::
+   The **OSCU** device must be **initialized independently** for each branch.
+
+.. image:: kenya/branches.png
+   :alt: "Populate from KRA" button for branches.
+
+Partner branch ID
+-----------------
+
+When creating a **new partner**,
